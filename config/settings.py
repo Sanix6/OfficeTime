@@ -1,7 +1,9 @@
 from pathlib import Path
+import os
+import dotenv
+dotenv.load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 SECRET_KEY = 'django-insecure-%$i8bcx5knm@2&(jm24+o$_-4u8n9yc=pnik=u36yxa7x_*gr('
 
@@ -9,14 +11,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'drf_yasg',
+
+    # apps
+    'user',
+    'main'
 ]
 
 MIDDLEWARE = [
@@ -49,20 +58,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -79,25 +80,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
+    ],
+}
 
-LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'ru'
+
+TIME_ZONE = 'Asia/Bishkek'
 
 USE_I18N = True
 
 USE_TZ = True
 
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-STATIC_URL = 'static/'
+NIKITA_LOGIN = os.getenv("NIKITA_LOGIN")
+NIKITA_PASSWORD = os.getenv("NIKITA_PASSWORD")
+NIKITA_SENDER = os.getenv("NIKITA_SENDER")
+OFFICE_NUMBER = os.getenv("OFFICE_NUMBER")
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+AUTH_USER_MODEL = "user.User"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
