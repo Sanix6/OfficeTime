@@ -3,12 +3,15 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .choices import USER_STATUS
 from .manager import CustomUserManager
+from helpers.choices import TYPE_CHOICES
 
 
 class User(AbstractUser):
     username = None
     user = models.CharField("Тип пользователя", choices=USER_STATUS, max_length=250, blank=True, null=True)
+    logo = models.ImageField('Логотип',)
     phone = models.IntegerField('Номер телефона ', unique=True)
+    summ = models.DecimalField(max_digits=10, decimal_places=2)
     first_name = models.CharField('Имя', max_length=100)
     last_name = models.CharField('Фамилия', max_length=100)
     is_active = models.BooleanField('Активный', default=False)
@@ -28,3 +31,5 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+
